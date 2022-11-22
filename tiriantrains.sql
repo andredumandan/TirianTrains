@@ -41,7 +41,7 @@ CREATE TABLE crew_certificate(
 );
 
 CREATE TABLE task(
-    crew_cert_id INT NOT NULL,
+    crew_cert_id INT NOT NULL PRIMARY KEY,
     task VARCHAR(255) NOT NULL DEFAULT 'Cleaning'
 );
 
@@ -70,14 +70,14 @@ CREATE TABLE station(
 );
 
 CREATE TABLE local_station(
-    l_station_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
+    station_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     destination_id INT,
     trip_cost FLOAT NOT NULL,
     FOREIGN KEY (destination_id) REFERENCES local_station(l_station_id) ON DELETE CASCADE
 );
 
 CREATE TABLE town_station(
-    t_station_id SERIAL NOT NULL UNIQUE PRIMARY KEY
+    station_id SERIAL NOT NULL UNIQUE PRIMARY KEY
 );
 
 CREATE TABLE inter_town_route(
@@ -94,8 +94,8 @@ CREATE TABLE trip(
     trip_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     train_id INT NOT NULL,
     trip_date DATE NOT NULL DEFAULT '01/01/2000',
-    type VARCHAR(255) NOT NULL,
     departure_time TIME NOT NULL DEFAULT '00:00:00',
+    type VARCHAR(255) NOT NULL,
     FOREIGN KEY (train_id) REFERENCES train(train_id) ON DELETE CASCADE,
     CHECK (type in ('Local', 'Inter-town'))
 );
