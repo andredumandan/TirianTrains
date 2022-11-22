@@ -53,7 +53,7 @@ VALUES (
 
 UPDATE local_station
 SET destination_id = 1002
-WHERE l_station_id = 1001;
+WHERE station_id = 1001;
 
 INSERT INTO station
 VALUES (
@@ -430,17 +430,20 @@ VALUES (
 INSERT INTO maintenance_crew
 VALUES (
     nextval('maintenance_crew_crew_no_seq'),
-    'B. Ramoh'
+    'Baho',
+    'Ramoh'
 );
 INSERT INTO maintenance_crew
 VALUES (
     nextval('maintenance_crew_crew_no_seq'),
-    'N. Khitsu'
+    'Ngek',
+    'Khitsu'
 );
 INSERT INTO maintenance_crew
 VALUES (
     nextval('maintenance_crew_crew_no_seq'),
-    'C. Itson'
+    'Char',
+    'Itson'
 );
 
 INSERT INTO crew_certificate
@@ -454,6 +457,7 @@ VALUES (
 
 INSERT INTO task
 VALUES (
+    nextval('task_task_id_seq'),
     1,
     'Cleaning'
 );
@@ -469,6 +473,7 @@ VALUES (
 
 INSERT INTO task
 VALUES (
+    nextval('task_task_id_seq'),
     1,
     'Replacement of brake discs'
 );
@@ -484,6 +489,7 @@ VALUES (
 
 INSERT INTO task
 VALUES (
+    nextval('task_task_id_seq'),
     1,
     'Complete oil change'
 );
@@ -495,8 +501,8 @@ VALUES (
     1,
     16176,
     '12/11/2016',
-    'Inter-town',
-    '09:41:00'
+    '09:41:00',
+    'Inter-town'
 );
 
 INSERT INTO inter_town_trip
@@ -510,8 +516,8 @@ VALUES (
     2,
     53157,
     '12/11/2016',
-    'Inter-town',
-    '12:48:00'
+    '12:48:00',
+    'Inter-town'
 );
 
 INSERT INTO inter_town_trip
@@ -525,8 +531,8 @@ VALUES (
     3,
     23813,
     '12/11/2016',
-    'Inter-town',
-    '12:48:00'
+    '12:48:00',
+    'Inter-town'
 );
 
 INSERT INTO inter_town_trip

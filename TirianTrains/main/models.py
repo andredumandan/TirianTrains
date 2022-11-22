@@ -24,14 +24,21 @@ class Train(models.Model):
     class Meta:
         managed = False
         db_table = 'train'
+    
+    def __str__(self) -> str:
+        return f'{self.series}-{self.model_number}'
 
 class MaintenanceCrew(models.Model):
     crew_no = models.AutoField(primary_key=True)
-    crew_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    given_name = models.CharField(max_length=255)
 
     class Meta:
         managed = False
         db_table = 'maintenance_crew'
+
+    def __str__(self) -> str:
+        return f'{self.last_name[0]}. {self.given_name}'
 
 class MaintenanceCertificate(models.Model):
     certificate_no = models.AutoField(primary_key=True)
@@ -40,6 +47,9 @@ class MaintenanceCertificate(models.Model):
     class Meta:
         managed = False
         db_table = 'maintenance_certificate'
+
+    def __str__(self) -> str:
+        return f'{self.train}'
 
 class CrewCertificate(models.Model):
     crew_cert_id = models.AutoField(primary_key=True)
@@ -52,13 +62,20 @@ class CrewCertificate(models.Model):
         managed = False
         db_table = 'crew_certificate'
 
+    def __str__(self) -> str:
+        return f'{self.crew_no} {self.certificate_no} {self.maintenance_date}'
+
 class Task(models.Model):
+    task_id = models.AutoField(primary_key=True) 
     crew_cert_id = models.IntegerField()
     task = models.CharField(max_length=255)
 
     class Meta:
         managed = False
         db_table = 'task'
+
+    def __str__(self) -> str:
+        return f'{self.crew_cert_id}-{self.task}'
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
@@ -72,6 +89,9 @@ class Customer(models.Model):
         managed = False
         db_table = 'customer'
 
+    def __str__(self) -> str:
+        return f'{self.last_name}, {self.given_name} {self.middle_initial}.'
+
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -80,6 +100,9 @@ class Ticket(models.Model):
     class Meta:
         managed = False
         db_table = 'ticket'
+    
+    def __str__(self) -> str:
+        return f'{self.ticket_id}-{self.customer}'
 
 class Station(models.Model):
     station_id = models.AutoField(primary_key=True)
@@ -89,8 +112,11 @@ class Station(models.Model):
         managed = False
         db_table = 'station'
 
+    def __str__(self) -> str:
+        return f'{self.station_name}'
+
 class LocalStation(models.Model):
-    l_station_id = models.IntegerField(primary_key=True)
+    station_id = models.AutoField(primary_key=True)
     destination = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     trip_cost = models.FloatField()
 
@@ -98,12 +124,18 @@ class LocalStation(models.Model):
         managed = False
         db_table = 'local_station'
 
+    def __str__(self) -> str:
+        return f'{self.station_id}'
+
 class TownStation(models.Model):
-    t_station_id = models.IntegerField(primary_key=True)
+    station_id = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
         db_table = 'town_station'
+
+    def __str__(self) -> str:
+        return f'{self.station_id}'
 
 class InterTownRoute(models.Model):
     route_id = models.AutoField(primary_key=True)
@@ -116,32 +148,44 @@ class InterTownRoute(models.Model):
         managed = False
         db_table = 'inter_town_route'
 
+    def __str__(self) -> str:
+        return f'{self.origin} to {self.destination}'
+
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
     train = models.ForeignKey(Train, on_delete=models.CASCADE)
     trip_date = models.DateField()
-    type = models.CharField(max_length=255)
     departure_time = models.TimeField()
+    type = models.CharField(max_length=255)
 
     class Meta:
         managed = False
         db_table = 'trip'
 
+    def __str__(self) -> str:
+        return f'{self.train} @ {self.trip_date} {self.departure_time}'
+
 class LocalTrip(models.Model):
-    trip_id = models.IntegerField(primary_key=True)
+    trip_id = models.AutoField(primary_key=True)
     station = models.ForeignKey(LocalStation, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'local_trip'
 
+    def __str__(self) -> str:
+        return f'{self.station}'
+
 class InterTownTrip(models.Model):
-    trip_id = models.IntegerField(primary_key=True)
+    trip_id = models.AutoField(primary_key=True)
     route = models.ForeignKey(InterTownRoute, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'inter_town_trip'
+
+    def __str__(self) -> str:
+        return f'{self.route}'
 
 class TicketTrip(models.Model):
     ticket_trip_id = models.AutoField(primary_key=True)
@@ -151,3 +195,6 @@ class TicketTrip(models.Model):
     class Meta:
         managed = False
         db_table = 'ticket_trip'
+    
+    def __str__(self) -> str:
+        return f'{self.trip}, {self.ticket}'

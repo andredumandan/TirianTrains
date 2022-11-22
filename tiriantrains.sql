@@ -21,7 +21,8 @@ CREATE TABLE train(
 
 CREATE TABLE maintenance_crew(
     crew_no SERIAL NOT NULL UNIQUE PRIMARY KEY,
-    crew_name VARCHAR(255) NOT NULL
+    last_name VARCHAR(255) NOT NULL,
+    given_name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE maintenance_certificate(
@@ -41,7 +42,8 @@ CREATE TABLE crew_certificate(
 );
 
 CREATE TABLE task(
-    crew_cert_id INT NOT NULL PRIMARY KEY,
+    task_id SERIAL PRIMARY KEY NOT NULL,
+    crew_cert_id INT NOT NULL,
     task VARCHAR(255) NOT NULL DEFAULT 'Cleaning'
 );
 
@@ -73,7 +75,7 @@ CREATE TABLE local_station(
     station_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     destination_id INT,
     trip_cost FLOAT NOT NULL,
-    FOREIGN KEY (destination_id) REFERENCES local_station(l_station_id) ON DELETE CASCADE
+    FOREIGN KEY (destination_id) REFERENCES local_station(station_id) ON DELETE CASCADE
 );
 
 CREATE TABLE town_station(
@@ -86,8 +88,8 @@ CREATE TABLE inter_town_route(
     destination_id INT NOT NULL,
     travel_time FLOAT DEFAULT 5,
     trip_cost INT NOT NULL DEFAULT 0,
-    FOREIGN KEY (origin_id) REFERENCES town_station(t_station_id) ON DELETE CASCADE,
-    FOREIGN KEY (destination_id) REFERENCES town_station(t_station_id) ON DELETE CASCADE
+    FOREIGN KEY (origin_id) REFERENCES town_station(station_id) ON DELETE CASCADE,
+    FOREIGN KEY (destination_id) REFERENCES town_station(station_id) ON DELETE CASCADE
 );
 
 CREATE TABLE trip(
@@ -103,7 +105,7 @@ CREATE TABLE trip(
 CREATE TABLE local_trip(
     trip_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     station_id INT NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES local_station(l_station_id)
+    FOREIGN KEY (station_id) REFERENCES local_station(station_id)
 );
 CREATE TABLE inter_town_trip(
     trip_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
