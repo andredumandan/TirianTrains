@@ -42,7 +42,7 @@ class MaintenanceCrew(models.Model):
 
 class MaintenanceCertificate(models.Model):
     certificate_no = models.AutoField(primary_key=True)
-    train = models.ForeignKey('Train', on_delete=models.CASCADE)
+    train = models.OneToOneField('Train', on_delete=models.CASCADE, blank=True, null=True, related_name='maintenance_certificate')
 
     class Meta:
         managed = False
@@ -57,6 +57,7 @@ class CrewCertificate(models.Model):
     certificate_no = models.ForeignKey('MaintenanceCertificate', on_delete=models.CASCADE, db_column='certificate_no')
     maintenance_date = models.DateField()
     condition = models.CharField(max_length=255)
+    task = models.CharField(max_length=255)
 
     class Meta:
         managed = False
@@ -151,10 +152,17 @@ class InterTownRoute(models.Model):
     def __str__(self) -> str:
         return f'{self.origin} to {self.destination}'
 
+class TripDate(models.Model):
+    date = models.DateField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'trip_date'
+
 class Trip(models.Model):
     trip_id = models.AutoField(primary_key=True)
     train = models.ForeignKey(Train, on_delete=models.CASCADE)
-    trip_date = models.DateField()
+    trip_date = models.ForeignKey('TripDate', on_delete=models.CASCADE, db_column='trip_date')
     departure_time = models.TimeField()
     type = models.CharField(max_length=255)
 

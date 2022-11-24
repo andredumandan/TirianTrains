@@ -37,14 +37,9 @@ CREATE TABLE crew_certificate(
     certificate_no INT NOT NULL,
     maintenance_date DATE NOT NULL DEFAULT '01/01/2000',
     condition VARCHAR(255) NOT NULL DEFAULT 'Okay',
+    task VARCHAR(255) NOT NULL DEFAULT 'Cleaning',
     FOREIGN KEY (crew_no) REFERENCES maintenance_crew(crew_no),
     FOREIGN KEY (certificate_no) REFERENCES maintenance_certificate(certificate_no)
-);
-
-CREATE TABLE task(
-    task_id SERIAL PRIMARY KEY NOT NULL,
-    crew_cert_id INT NOT NULL,
-    task VARCHAR(255) NOT NULL DEFAULT 'Cleaning'
 );
 
 --https://www.postgresql.org/docs/current/datatype-enum.html
@@ -92,6 +87,10 @@ CREATE TABLE inter_town_route(
     FOREIGN KEY (destination_id) REFERENCES town_station(station_id) ON DELETE CASCADE
 );
 
+CREATE TABLE trip_date(
+    date DATE NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE trip(
     trip_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     train_id INT NOT NULL,
@@ -99,6 +98,7 @@ CREATE TABLE trip(
     departure_time TIME NOT NULL DEFAULT '00:00:00',
     type VARCHAR(255) NOT NULL,
     FOREIGN KEY (train_id) REFERENCES train(train_id) ON DELETE CASCADE,
+    FOREIGN KEY (trip_date) REFERENCES trip_date(date) ON DELETE CASCADE,
     CHECK (type in ('Local', 'Inter-town'))
 );
 

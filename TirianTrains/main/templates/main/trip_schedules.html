@@ -1,0 +1,11 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="trip-schedules-content">
+        <p id="train-maintenance">Trip Schedule</p>
+        <div class="dates">
+            {% for trip in trips %}
+                <p>{{trip.date}}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

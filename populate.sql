@@ -394,7 +394,7 @@ INSERT INTO train
 VALUES (
     53157, 
     'A', 
-    420, 
+    333, 
     150, 
     100, 
     7, 
@@ -409,7 +409,7 @@ INSERT INTO train
 VALUES (
     23813, 
     'A', 
-    420, 
+    555, 
     150, 
     100, 
     7, 
@@ -452,13 +452,7 @@ VALUES (
     1,
     1,
     '08/01/2016',
-    'Excellent'
-);
-
-INSERT INTO task
-VALUES (
-    nextval('task_task_id_seq'),
-    1,
+    'Excellent',
     'Cleaning'
 );
 
@@ -468,13 +462,7 @@ VALUES (
     2,
     1,
     '09/01/2016',
-    'Very Good'
-);
-
-INSERT INTO task
-VALUES (
-    nextval('task_task_id_seq'),
-    1,
+    'Very Good',
     'Replacement of brake discs'
 );
 
@@ -484,17 +472,16 @@ VALUES (
     3,
     1,
     '10/01/2016',
-    'Excellent'
-);
-
-INSERT INTO task
-VALUES (
-    nextval('task_task_id_seq'),
-    1,
+    'Excellent',
     'Complete oil change'
 );
 
 --TRIPS
+
+INSERT INTO trip_date
+VALUES (
+    '12/11/2016'
+);
 
 INSERT INTO trip
 VALUES (

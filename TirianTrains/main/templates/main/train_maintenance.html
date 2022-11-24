@@ -1,0 +1,14 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <h1 class="title">
+        Train Maintenance
+    </h1>
+
+    <section class="train-maintenance-content">
+        <div class="train-list">
+            {% for train in trains %}
+                <p><a href="{% url 'train-detail' train.pk %}">{{train}}</a></l>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %}

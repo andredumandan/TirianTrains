@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+:root{
+    --dark: #060606;
+    --semi-dark: #222222;
+    --mid: rgb(65, 65, 65);
+    --semi-light: rgb(142, 142, 142);
+    --light: rgb(216, 216, 216);
+    --super-light: rgb(252, 252, 252);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Bebas Neue', cursive;
+    font-weight: 400;
+}
+
+body{
+    background-color: var(--light);
+}
+
+header{
+    /* outline: 1px red solid; */
+    background-color: var(--dark);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--light);
+}
+
+header > h1 {
+    vertical-align: middle;
+}
+
+nav ul{
+    display: flex;
+    gap: 50px;
+}
+
+li{
+    list-style: none;
+    padding: 10px;
+    /* outline: 1px red solid; */
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.title{
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.train-maintenance-content{
+    display: flex;
+    justify-content: space-around;
+}
+
+.train-desc{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.train-details,
+.stations{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.train-desc{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.maintenance-history{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+p{
+    text-align: center;
+    padding: 10px;
+    margin: 2px;
+}
+
+.train-detail-content p,
+.routes p,
+.stations p{
+    text-align: center;
+    background-color: var(--super-light);
+}
+
+.train-detail-content,
+.train-routes-content{
+    margin: 60px;
+}
+
+#train-maintenance,
+#local-routes,
+#inter-town-routes{
+    font-size: xx-large;
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+#maintenance-history{
+    font-size: xx-large;
+    background-color: var(--semi-light);
+    color: var(--light);
+}
+
+p.btn{
+    background-color: var(--semi-light);
+    color: var(--super-light);
+}
+
+.routes{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+p.label{
+    background-color: var(--mid);
+    color: var(--light);
+}
+
+.first-row{
+    display: flex;
+}
+
+.first-row > * {
+    flex-grow: 1;
+}

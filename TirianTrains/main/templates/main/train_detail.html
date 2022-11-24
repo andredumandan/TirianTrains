@@ -1,0 +1,72 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <section class="train-detail-content">
+        <p id="train-maintenance">TRAIN MAINTENANCE</p>
+        <div class="train-desc">
+            <p>Train ID: {{train.train_id}}</p>
+            <p>Model: {{train.series}}-{{train.model_number}}</p>
+        </div>
+        <div class="train-details">
+            <p>Max Speed (kph): {{train.max_speed}}</p>
+            <p>No. of Seats: {{train.seats}}</p>
+            <p>No. of Toilets: {{train.toilets}}</p>
+            <p>
+                Reclining Seats: {% if train.reclining_seats %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            <p>
+                Luggage Storage: {% if train.luggage_storage %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            <p>
+                Folding Tables: {% if train.folding_tables %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            <p>
+                Vending Machines: {% if train.vending_machines %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            <p>
+                Disability Access: {% if train.disability_access %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            <p>
+                Food Services: {% if train.food_services %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            
+        </div>
+        <p id="maintenance-history">MAINTENANCE HISTORY</p>
+        <div class="maintenance-history">
+            <p class="label">Date</p>
+            <p class="label">Crew in Charge</p>
+            <p class="label">Tasks</p>
+            <p class="label">Condition</p>
+            {% for cert in crew_certs %}
+                <p>{{cert.maintenance_date}}</p>
+                <p>{{cert.crew_no}}</p>
+                <p>{{cert.task}}</p>
+                <p>{{cert.condition}}</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %}
