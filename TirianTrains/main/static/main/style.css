@@ -73,7 +73,8 @@ a{
     grid-template-columns: repeat(3, 1fr);
 }
 
-.train-desc{
+.train-desc,
+.dates{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
@@ -91,13 +92,17 @@ p{
 
 .train-detail-content p,
 .routes p,
-.stations p{
+.stations p,
+.dates p,
+.trips p{
     text-align: center;
     background-color: var(--super-light);
 }
 
 .train-detail-content,
-.train-routes-content{
+.train-routes-content,
+.trip-schedules-content,
+.trip-dates-content{
     margin: 60px;
 }
 
@@ -136,4 +141,9 @@ p.label{
 
 .first-row > * {
     flex-grow: 1;
+}
+
+.trips{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
 }

@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="train-routes-content">
+    <div class="local-routes">
+        <p id="local-routes">Local Trips</p>
+        <div class="stations">
+            {% for o, d in local.items %}
+            <p>{{o}}</p>
+            <p>{{d}}</p>
+            <p class="btn">Trips</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="town-stations">
+        <p id="local-routes">inter-town trips</p>
+        <div class="stations">
+            {% for id, station in town.items %}
+                <p>{{station}}</p>
+                <p class="btn"><a href="{% url 'departure-routes' id %}">Depart</a></p>
+                <p class="btn"><a href="{% url 'arrival-routes' id %}">Arrive</a></p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

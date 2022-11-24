@@ -115,12 +115,77 @@ def ArrivalRoutes(request, pk):
 
 def TripSchedules(request):
 
-    trips = TripDate.objects.all()
+    trip_dates = TripDate.objects.all()
+
+    trips = {}
+
+    for date in trip_dates:
+        trips[date] = len(date.trip_set.all())
 
     context = {
         'trips' : trips,
     }
     return render(request, 'main/trip_schedules.html', context)
+
+def TripDateDetail(request, pk):
+
+    trip_date = TripDate.objects.get(date=pk)
+    trip_objects = trip_date.trip_set.all()
+
+    trips = {}
+    local_trips = {}
+
+    for trip in trip_objects:
+        if trip.type == 'Inter-town':
+            route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
+            origin = Station.objects.get(station_id=route.origin.station_id)
+            destination = Station.objects.get(station_id=route.destination.station_id)
+            trips[trip] = [trip.train.train_id, origin, destination, trip.departure_time, trip.departure_time, route.travel_time, route.trip_cost]
+        elif trip.type == 'Local':
+            route = LocalTrip.objects.get(trip_id=trip.trip_id).station
+            origin = Station.objects.get(station_id=route.station_id)
+            destination = Station.objects.get(station_id=route.destination.station_id)
+            local_trips[trip] = [trip.train.train_id, origin, destination, trip.departure_time, trip.departure_time, 5, 2]
+
+    context = {
+        'trips' : trips,
+        'local_trips' : local_trips,
+        'date' : trip_date,
+    }
+    return render(request, 'main/schedule_detail.html', context)
+
+def Trips(request):
+    
+    local_stations = LocalStation.objects.all()
+    town_stations = TownStation.objects.all()
+    inter_town_routes = InterTownRoute.objects.all().order_by('origin')
+
+    local = {}
+    inter = {}
+    town = {}
+
+    for l in local_stations:
+        origin = Station.objects.get(station_id=l.station_id)
+        destination = Station.objects.get(station_id=l.destination.station_id)
+        local[origin] = destination
+
+    for t in town_stations:
+        station = Station.objects.get(station_id=t.station_id)
+        town[t] = station
+
+    for i in inter_town_routes:
+        origin = Station.objects.get(station_id=i.origin.station_id)
+        destination = Station.objects.get(station_id=i.destination.station_id)
+        
+        inter[i] = [origin, destination, i.travel_time, f'{i.trip_cost} Lion coins']
+
+    context = {
+        'local' : local,
+        'inter' : inter, 
+        'town' : town,
+    }
+
+    return render(request, 'main/trips.html', context)
 
 def TicketSales(request):
     return render(request, 'main/home.html')
