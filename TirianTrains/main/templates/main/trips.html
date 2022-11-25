@@ -8,17 +8,17 @@
             {% for o, d in local.items %}
             <p>{{o}}</p>
             <p>{{d}}</p>
-            <p class="btn">Trips</p>
+            <p class="btn"><a href="{% url 'trip-detail' type='local' pk=o.station_id %}">Trips</a></p>
             {% endfor %}
         </div>
     </div>
     <div class="town-stations">
-        <p id="local-routes">inter-town trips</p>
+        <p id="local-routes">Inter-Town Trips</p>
         <div class="stations">
             {% for id, station in town.items %}
                 <p>{{station}}</p>
-                <p class="btn"><a href="{% url 'departure-routes' id %}">Depart</a></p>
-                <p class="btn"><a href="{% url 'arrival-routes' id %}">Arrive</a></p>
+                <p class="btn"><a href="{% url 'trip-detail' type='inter-town-depart' pk=id %}">Depart</a></p>
+                <p class="btn"><a href="{% url 'trip-detail' type='inter-town-arrive' pk=id %}">Arrive</a></p>
             {% endfor %}
         </div>
     </div>

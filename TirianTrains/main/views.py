@@ -187,5 +187,215 @@ def Trips(request):
 
     return render(request, 'main/trips.html', context)
 
-def TicketSales(request):
-    return render(request, 'main/home.html')
+def TripDetail(request, type, pk):
+    
+    trips = {}
+
+    if type == 'local':
+        origin = Station.objects.get(station_id=pk)
+        local_trips = LocalTrip.objects.filter(station=LocalStation.objects.get(station_id=origin.station_id))
+
+        for trip in local_trips:
+
+            date = Trip.objects.get(trip_id=trip.trip_id).trip_date
+            train = Trip.objects.get(trip_id=trip.trip_id).train
+            destination = Station.objects.get(station_id=LocalStation.objects.get(station_id=origin.station_id).destination.station_id)
+            departure = Trip.objects.get(trip_id=trip.trip_id).departure_time
+            arrival = Trip.objects.get(trip_id=trip.trip_id).departure_time
+            duration = 5
+            cost = 2
+
+            trips[trip] = [date.date, train.train_id, origin, destination, departure, arrival, duration, cost]
+    
+    elif type == 'inter-town-depart':
+        s_origin = Station.objects.get(station_id=pk)
+        origin = TownStation.objects.get(station_id=pk)
+        routes = InterTownRoute.objects.filter(origin=origin)
+        
+        for route in routes:
+            town_trips = InterTownTrip.objects.filter(route=route)
+            for t_t in town_trips:
+                trip = Trip.objects.get(trip_id=t_t.trip_id)
+                date = trip.trip_date
+                train = trip.train
+                destination = Station.objects.get(station_id=route.destination.station_id)
+                departure = trip.departure_time
+                arrival = trip.departure_time
+                duration = route.travel_time
+                cost = route.trip_cost
+
+                trips[trip] = [date.date, train.train_id, s_origin, destination, departure, arrival, duration, cost]
+
+    elif type == 'inter-town-arrive':
+        s_destination = Station.objects.get(station_id=pk)
+        destination = TownStation.objects.get(station_id=pk)
+        routes = InterTownRoute.objects.filter(destination=destination)
+        
+        for route in routes:
+            town_trips = InterTownTrip.objects.filter(route=route)
+            for t_t in town_trips:
+                trip = Trip.objects.get(trip_id=t_t.trip_id)
+                date = trip.trip_date
+                train = trip.train
+                origin = Station.objects.get(station_id=route.origin.station_id)
+                departure = trip.departure_time
+                arrival = trip.departure_time
+                duration = route.travel_time
+                cost = route.trip_cost
+
+                trips[trip] = [date.date, train.train_id, origin, s_destination, departure, arrival, duration, cost]
+
+    context = {
+        'trips' : trips,
+    }
+
+    return render(request, 'main/trip_details.html', context)
+
+def Tickets(request):
+
+    ticket_objects = Ticket.objects.all()
+
+    tickets = {}
+    for ticket in ticket_objects:
+        
+        first_trip = ticket.tickettrip_set.first().trip
+        last_trip = ticket.tickettrip_set.last().trip
+        
+        if first_trip.type == 'Local':
+            origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=first_trip.trip_id).station.station_id)
+
+        elif first_trip.type == 'Inter-town':
+            origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=first_trip.trip_id).route.origin.station_id)
+
+        if last_trip.type == 'Local':
+            final_dest = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=last_trip.trip_id).station.destination.station_id)
+
+        elif last_trip.type == 'Inter-town':
+            final_dest = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=last_trip.trip_id).route.destination.station_id)
+
+        total_cost = 0
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'Local':
+                total_cost += 2
+            elif ticket_trip.trip.type == 'Inter-town':
+                trip_cost = InterTownTrip.objects.get(trip_id=ticket_trip.trip.trip_id).route.trip_cost
+                total_cost += trip_cost
+
+        tickets[ticket] = [origin, final_dest, total_cost]
+
+    context = {
+        'tickets' : tickets,
+    }
+    return render(request, 'main/tickets.html', context)
+
+def TicketDetail(request, pk):
+    
+    ticket = Ticket.objects.get(ticket_id=pk)
+    customer_obj = ticket.customer
+    
+    ticket_trips = ticket.tickettrip_set.all()
+    trips = {}
+    customer = {}
+
+
+    for t_t in ticket_trips:
+
+        trip = t_t.trip
+        train = trip.train.train_id
+
+        if trip.type == 'Local':
+            origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.station_id)
+            destination = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.destination.station_id)
+            departure = trip.departure_time
+            arrival = trip.departure_time
+            duration = 5
+            cost = 2
+
+        elif trip.type == 'Inter-town':
+            origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.origin.station_id)
+            destination = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.destination.station_id)
+            departure = trip.departure_time
+            arrival = trip.departure_time
+            duration = InterTownTrip.objects.get(trip_id=trip.trip_id).route.travel_time
+            cost = InterTownTrip.objects.get(trip_id=trip.trip_id).route.trip_cost
+
+        trips[t_t] = [train, origin, destination, departure, arrival, duration, cost]
+
+    total_cost = 0
+    for ticket_trip in ticket_trips:
+        if ticket_trip.trip.type == 'Local':
+            total_cost += 2
+        elif ticket_trip.trip.type == 'Inter-town':
+            trip_cost = InterTownTrip.objects.get(trip_id=ticket_trip.trip.trip_id).route.trip_cost
+            total_cost += trip_cost
+
+    customer_id = f'Customer ID: {customer_obj.customer_id}'
+    date = f'Date: {ticket.date_purchased}'
+    last_name = f'Last Name: {customer_obj.last_name}'
+    given_name = f'Given Name: {customer_obj.given_name}'
+    middle_initial = f'Middle Initial: {customer_obj.middle_initial}'
+    birth_date = f'Birth Date: {customer_obj.birth_date}'
+    gender = f'Gender: {customer_obj.current_gender}'
+    total_cost = f'Total Cost: {total_cost}'
+
+    customer[customer_obj] = [customer_id, date, last_name, given_name, middle_initial, birth_date, gender, total_cost]
+
+    context = {
+        'customer' : customer,
+        'trips' : trips,
+    }
+
+    return render(request, 'main/ticket_detail.html', context)
+
+def Customers(request):
+
+    customers_set = Customer.objects.all()
+
+    customers = {}
+    
+    for customer in customers_set:
+        customers[customer] = customer.birth_date
+
+    context = {
+        'customers' : customers,    
+    }
+    return render(request, 'main/customers.html', context)
+
+def CustomerDetail(request, pk):
+
+    customer = Customer.objects.get(customer_id=pk)
+
+    tickets = Ticket.objects.filter(customer=customer)
+    trips = []
+    for ticket in tickets:
+        for ticket_trip in ticket.tickettrip_set.all():
+            trips.append(ticket_trip.trip)
+
+    history = {}
+    for trip in trips:
+        train = trip.train
+
+        if trip.type == 'Local':
+            route = LocalTrip.objects.get(trip_id=trip.trip_id).station
+            origin = Station.objects.get(station_id=route.station_id)
+            destination = Station.objects.get(station_id=route.destination.station_id)
+            duration = 5
+            cost = 2
+
+        elif trip.type == 'Inter-town':
+            route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
+            origin = Station.objects.get(station_id=route.origin.station_id)
+            destination = Station.objects.get(station_id=route.destination.station_id)
+            duration = route.travel_time
+            cost = route.trip_cost
+
+        departure = trip.departure_time
+        arrival = trip.departure_time
+
+        history[trip] = [train.train_id, origin, destination, departure, arrival, duration, cost]
+
+    context = {
+        'customer' : customer,
+        'history' : history,
+    }
+    return render(request, 'main/customer_detail.html', context)

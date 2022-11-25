@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="trip-details-content">
+        <p id="train-maintenance">Trips</p>
+        <div class="trip-details">
+            <p class="label">Date</p>
+            <p class="label">Train #</p>
+            <p class="label">Origin</p>
+            <p class="label">Destination</p>
+            <p class="label">Departure</p>
+            <p class="label">Arrival</p>
+            <p class="label">Duration</p>
+            <p class="label">Cost</p>
+            {% for trip, details in trips.items  %}
+                {% for d in details %}
+                    <p>{{d}}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

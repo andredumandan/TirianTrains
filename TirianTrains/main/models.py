@@ -93,17 +93,6 @@ class Customer(models.Model):
     def __str__(self) -> str:
         return f'{self.last_name}, {self.given_name} {self.middle_initial}.'
 
-class Ticket(models.Model):
-    ticket_id = models.AutoField(primary_key=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    date_purchased = models.DateField()
-
-    class Meta:
-        managed = False
-        db_table = 'ticket'
-    
-    def __str__(self) -> str:
-        return f'{self.ticket_id}-{self.customer}'
 
 class Station(models.Model):
     station_id = models.AutoField(primary_key=True)
@@ -195,6 +184,18 @@ class InterTownTrip(models.Model):
     def __str__(self) -> str:
         return f'{self.route}'
 
+class Ticket(models.Model):
+    ticket_id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    date_purchased = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = 'ticket'
+    
+    def __str__(self) -> str:
+        return f'{self.ticket_id}-{self.customer}'
+        
 class TicketTrip(models.Model):
     ticket_trip_id = models.AutoField(primary_key=True)
     trip = models.ForeignKey('Trip', on_delete=models.CASCADE)

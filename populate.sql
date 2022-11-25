@@ -404,7 +404,8 @@ VALUES (
     False, 
     False, 
     False
-); 
+);
+
 INSERT INTO train
 VALUES (
     23813, 

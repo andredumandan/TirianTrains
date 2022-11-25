@@ -62,26 +62,54 @@ a{
     justify-content: space-around;
 }
 
-.train-desc{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.train-details,
-.stations{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
-
 .train-desc,
 .dates{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
-.maintenance-history{
+.train-detail-content,
+.train-routes-content,
+.trip-schedules-content,
+.trip-dates-content,
+.trip-details-content,
+.tickets-content,
+.ticket-detail-content,
+.customers-content,
+.customer-detail-content{
+    margin: 60px;
+}
+
+.train-details,
+.stations,
+.train-desc,
+.ticket-details-1,
+.customers{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.maintenance-history,
+.routes{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+}
+
+.tickets{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.trips,
+.ticket-details-2,
+.customer-details{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+}
+
+.trip-details{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
 }
 
 p{
@@ -94,16 +122,14 @@ p{
 .routes p,
 .stations p,
 .dates p,
-.trips p{
+.trips p,
+.trip-details p,
+.tickets p,
+.ticket-detail-content p,
+.customers p,
+.customer-details p{
     text-align: center;
     background-color: var(--super-light);
-}
-
-.train-detail-content,
-.train-routes-content,
-.trip-schedules-content,
-.trip-dates-content{
-    margin: 60px;
 }
 
 #train-maintenance,
@@ -125,10 +151,6 @@ p.btn{
     color: var(--super-light);
 }
 
-.routes{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-}
 
 p.label{
     background-color: var(--mid);
@@ -141,9 +163,4 @@ p.label{
 
 .first-row > * {
     flex-grow: 1;
-}
-
-.trips{
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); 
 }

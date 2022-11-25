@@ -11,5 +11,9 @@ urlpatterns = [
     path('trip-schedules/', TripSchedules, name='trip-schedules'),
     path('trip-schedules/<str:pk>/', TripDateDetail, name='trip-date-detail'),
     path('trips/', Trips, name='trips'),
-    path('ticket-sales/', TicketSales, name='ticket-sales'),
+    path('trips/<str:type>/<str:pk>', TripDetail, name='trip-detail'),
+    path('tickets/', Tickets, name='tickets'),
+    path('tickets/<str:pk>/', TicketDetail, name='ticket-detail'),
+    path('customers/', Customers, name='customers'),
+    path('customers/<str:pk>/travel-history/', CustomerDetail, name='customer-detail'),
 ]

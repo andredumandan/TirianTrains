@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="customers-content">
+        <p id="train-maintenance">Customers</p>
+        <div class="customers">
+            <p class="label">Travel History</p>
+            <p class="label">Name</p>
+            <p class="label">Age</p>
+            {% for customer, age in customers.items %}
+                <p class="btn"><a href="{% url 'customer-detail' customer.customer_id %}">SELECT</a></p>
+                <p>{{customer}}</p>
+                <p>{{age}}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
