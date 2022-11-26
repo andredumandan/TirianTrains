@@ -51,63 +51,41 @@ a{
     color: inherit;
 }
 
-.title{
-    text-transform: uppercase;
-    text-align: center;
-    padding: 10px 0;
-}
-
 .train-maintenance-content{
     display: flex;
     justify-content: space-around;
 }
 
-.train-desc,
-.dates{
+.margin-60{
+    margin: 60px;
+}
+
+.grid-columns-2{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
 
-.train-detail-content,
-.train-routes-content,
-.trip-schedules-content,
-.trip-dates-content,
-.trip-details-content,
-.tickets-content,
-.ticket-detail-content,
-.customers-content,
-.customer-detail-content{
-    margin: 60px;
-}
-
-.train-details,
-.stations,
-.train-desc,
-.ticket-details-1,
-.customers{
+.grid-columns-3{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
-.maintenance-history,
-.routes{
+.grid-columns-4{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
 
-.tickets{
+.grid-columns-5{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 }
 
-.trips,
-.ticket-details-2,
-.customer-details{
+.grid-columns-7{
     display: grid;
     grid-template-columns: repeat(7, 1fr); 
 }
 
-.trip-details{
+.grid-columns-8{
     display: grid;
     grid-template-columns: repeat(8, 1fr);
 }
@@ -116,31 +94,17 @@ p{
     text-align: center;
     padding: 10px;
     margin: 2px;
-}
-
-.train-detail-content p,
-.routes p,
-.stations p,
-.dates p,
-.trips p,
-.trip-details p,
-.tickets p,
-.ticket-detail-content p,
-.customers p,
-.customer-details p{
     text-align: center;
     background-color: var(--super-light);
 }
 
-#train-maintenance,
-#local-routes,
-#inter-town-routes{
+.main-header{
     font-size: xx-large;
     background-color: var(--dark);
     color: var(--light);
 }
 
-#maintenance-history{
+.sub-header{
     font-size: xx-large;
     background-color: var(--semi-light);
     color: var(--light);

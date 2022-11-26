@@ -1,8 +1,8 @@
 {% extends "main/base.html" %}
 {% block content %}
-    <div class="trip-dates-content">
-        <p id="train-maintenance">Trip Schedule</p>
-        <div class="dates">
+    <div class="margin-60">
+        <p class="main-header">Trip Schedule</p>
+        <div class="grid-columns-2">
             <p class="label">Date</p>
             <p class="label">No. of Trips</p>
             {% for trip, count in trips.items %}

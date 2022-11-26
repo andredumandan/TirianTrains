@@ -1,13 +1,13 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-    <section class="train-detail-content">
-        <p id="train-maintenance">TRAIN MAINTENANCE</p>
-        <div class="train-desc">
+    <section class="margin-60">
+        <p class="main-header">TRAIN MAINTENANCE</p>
+        <div class="grid-columns-3">
             <p>Train ID: {{train.train_id}}</p>
             <p>Model: {{train.series}}-{{train.model_number}}</p>
         </div>
-        <div class="train-details">
+        <div class="grid-columns-3">
             <p>Max Speed (kph): {{train.max_speed}}</p>
             <p>No. of Seats: {{train.seats}}</p>
             <p>No. of Toilets: {{train.toilets}}</p>
@@ -55,8 +55,8 @@
             </p>
             
         </div>
-        <p id="maintenance-history">MAINTENANCE HISTORY</p>
-        <div class="maintenance-history">
+        <p class="sub-header">MAINTENANCE HISTORY</p>
+        <div class="grid-columns-4">
             <p class="label">Date</p>
             <p class="label">Crew in Charge</p>
             <p class="label">Tasks</p>

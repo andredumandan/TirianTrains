@@ -1,16 +1,16 @@
 {% extends "main/base.html" %}
 {% block content %}
-    <div class="ticket-detail-content">
-        <p id="train-maintenance">Train Ticket</p>
-        <div class="ticket-details-1">
+    <div class="margin-60">
+        <p class="main-header">Train Ticket</p>
+        <div class="grid-columns-3">
             {% for key, value in customer.items %}
                 {% for v in value %}
                     <p>{{v}}</p>                    
                 {% endfor %}
             {% endfor %}
         </div>
-        <p id="maintenance-history">Trip Itinerary</p>
-        <div class="ticket-details-2">
+        <p class="sub-header">Trip Itinerary</p>
+        <div class="grid-columns-7">
             <p class="label">Train #</p>
             <p class="label">Origin</p>
             <p class="label">Destination</p>

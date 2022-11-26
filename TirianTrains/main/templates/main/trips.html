@@ -1,10 +1,10 @@
 {% extends "main/base.html" %}
 
 {% block content %}
-<div class="train-routes-content">
+<div class="margin-60">
     <div class="local-routes">
-        <p id="local-routes">Local Trips</p>
-        <div class="stations">
+        <p class="main-header">Local Trips</p>
+        <div class="grid-columns-3">
             {% for o, d in local.items %}
             <p>{{o}}</p>
             <p>{{d}}</p>
@@ -13,8 +13,8 @@
         </div>
     </div>
     <div class="town-stations">
-        <p id="local-routes">Inter-Town Trips</p>
-        <div class="stations">
+        <p class="main-header">Inter-Town Trips</p>
+        <div class="grid-columns-3">
             {% for id, station in town.items %}
                 <p>{{station}}</p>
                 <p class="btn"><a href="{% url 'trip-detail' type='inter-town-depart' pk=id %}">Depart</a></p>
