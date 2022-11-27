@@ -22,6 +22,8 @@
             <div class="town-stations">
                 <p class="main-header">Town Stations</p>
                 <div class="grid-columns-3">
+                    <p class="label">Station</p>
+                    <p class="label span-2">Routes</p>
                     {% for id, station in town.items %}
                         <p>{{station}}</p>
                         <p class="btn"><a href="{% url 'departure-routes' id %}">Depart</a></p>

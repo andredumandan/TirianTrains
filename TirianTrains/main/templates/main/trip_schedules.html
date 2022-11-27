@@ -2,11 +2,13 @@
 {% block content %}
     <div class="margin-60">
         <p class="main-header">Trip Schedule</p>
-        <div class="grid-columns-2">
+        <div class="grid-columns-3">
+            <p class="label">Trips</p>
             <p class="label">Date</p>
             <p class="label">No. of Trips</p>
             {% for trip, count in trips.items %}
-                <p><a href="{% url 'trip-date-detail' trip.date %}">{{trip.date}}</a></p>
+                <p class="btn"><a href="{% url 'trip-date-detail' trip.date %}">Select</a></p>
+                <p>{{trip.date}}</p>
                 <p>{{count}}</p>
             {% endfor %}
         </div>

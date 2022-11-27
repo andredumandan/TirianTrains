@@ -3,10 +3,15 @@
     
     <div class="margin-60">
         <p class="main-header">Trains</p>
-        <div class="train-list">
+        <div class="grid-columns-3">
+            <p class="label">Maintenance</p>
+            <p class="label">Train ID</p>
+            <p class="label">Model</p>
             {% for train in trains %}
-                <p><a href="{% url 'train-detail' train.pk %}">{{train}}</a></l>
-            {% endfor %}
+                <p class="btn"><a href="{% url 'train-detail' train.pk %}">Select</a></p>
+                <p>{{train.train_id}}</p>
+                <p>{{train}}</p>
+                {% endfor %}
         </div>
     </div>
 {% endblock content %}

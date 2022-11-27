@@ -2,14 +2,16 @@
 {% block content %}
     <div class="margin-60">
         <p class="main-header">Tickets</p>
-        <div class="grid-columns-5">
+        <div class="grid-columns-6">
+            <p class="label">Ticket Details</p>
             <p class="label">Ticket #</p>
             <p class="label">Customer Name</p>
             <p class="label">Origin</p>
             <p class="label">Final Destination</p>
             <p class="label">Total Cost</p>
             {% for ticket, details in tickets.items %}
-                <p><a href="{% url 'ticket-detail' ticket.ticket_id %}">{{ticket.ticket_id}}</a></p>
+                <p class="btn"><a href="{% url 'ticket-detail' ticket.ticket_id %}">Select</a></p>
+                <p>{{ticket.ticket_id}}</p>
                 <p>{{ticket.customer}}</p>
                 {% for d in details %}
                     <p>{{d}}</p>

@@ -1,20 +1,17 @@
 {% extends "main/base.html" %}
 {% block content %}
-<div class="train-routes-content">
-    <div class="inter-town-routes">
-        <p class="main-header">Inter-Town Routes</p>
-        <div class="grid-columns-4">
-            <p class="label">Origin</p>
-            <p class="label">Destination</p>
-            <p class="label">Duration</p>
-            <p class="label">Cost</p>
-            {% for id, route in routes.items %}
-                {% for r in route %}
-                    <p>{{r}}</p>
-                {% endfor %}
+<div class="margin-60">
+    <p class="main-header">Inter-Town Routes</p>
+    <div class="grid-columns-4">
+        <p class="label">Origin</p>
+        <p class="label">Destination</p>
+        <p class="label">Duration</p>
+        <p class="label">Cost</p>
+        {% for id, route in routes.items %}
+            {% for r in route %}
+                <p>{{r}}</p>
             {% endfor %}
-
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock content %}

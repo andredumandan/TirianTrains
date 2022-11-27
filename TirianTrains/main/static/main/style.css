@@ -24,7 +24,7 @@ body{
 header{
     /* outline: 1px red solid; */
     background-color: var(--dark);
-    padding: 20px;
+    padding: 20px 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -49,6 +49,16 @@ li{
 a{
     text-decoration: none;
     color: inherit;
+}
+
+.btn a::before{
+    display: block;
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .train-maintenance-content{
@@ -80,6 +90,11 @@ a{
     grid-template-columns: repeat(5, 1fr);
 }
 
+.grid-columns-6{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
 .grid-columns-7{
     display: grid;
     grid-template-columns: repeat(7, 1fr); 
@@ -90,12 +105,24 @@ a{
     grid-template-columns: repeat(8, 1fr);
 }
 
+.ticket-detail > *{
+    grid-column: span 3;
+}
+
+.ticket-detail > *:nth-child(n+3){
+    grid-column: span 2;
+}
+
+.span-2{
+    grid-column: span 2;
+}
+
 p{
     text-align: center;
     padding: 10px;
     margin: 2px;
-    text-align: center;
     background-color: var(--super-light);
+    position: relative;
 }
 
 .main-header{
