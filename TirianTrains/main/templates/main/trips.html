@@ -1,10 +1,13 @@
 {% extends "main/base.html" %}
 
 {% block content %}
+<div class="margin-60 grid-columns-2">
+    <p class="btn"><a href="{% url 'trip-create' 'local' %}" >Add Local Trip</a></p>
+    <p class="btn"><a href="{% url 'trip-create' 'inter-town' %}" >Add Inter-Town Trip</a></p>
+</div>
 <div class="margin-60">
     <div class="local-routes">
         <p class="main-header">Local Trips</p>
-
         <div class="grid-columns-3">
             <p class="label">Origin</p>
             <p class="label">Destination</p>
@@ -29,4 +32,5 @@
         </div>
     </div>
 </div>
+
 {% endblock content %}

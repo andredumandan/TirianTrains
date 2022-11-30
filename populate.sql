@@ -2,25 +2,29 @@
 INSERT INTO station
 VALUES (
     1001,
-    'Allies'' Enclave'
+    'Allies'' Enclave',
+    'local'
 );
 
 INSERT INTO station
 VALUES (
     1002,
-    'The Wardrobe'
+    'The Wardrobe',
+    'local'
 );
 
 INSERT INTO station
 VALUES (
     1003,
-    'The Lamp Post'
+    'The Lamp Post',
+    'local'
 );
 
 INSERT INTO station
 VALUES (
     1004,
-    'Beaver''s Dam'
+    'Beaver''s Dam',
+    'local'
 );
 
 INSERT INTO local_station
@@ -58,55 +62,64 @@ WHERE station_id = 1001;
 INSERT INTO station
 VALUES (
     0001,
-    'Mr. Tumms'
+    'Mr. Tumms',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     2001,
-    'Aslan''s Clamp'
+    'Aslan''s Clamp',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     3001,
-    'Cauldron Pool'
+    'Cauldron Pool',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     4001,
-    'Cherry Tree'
+    'Cherry Tree',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     5001,
-    'Father Christmas'
+    'Father Christmas',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     6001,
-    'Dancing Lawn'
+    'Dancing Lawn',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     7001,
-    'Anvard'
+    'Anvard',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     8001,
-    'The Stone Table'
+    'The Stone Table',
+    'inter-town'
 );
 
 INSERT INTO station
 VALUES (
     9001,
-    'Witch''s Camp'
+    'Witch''s Camp',
+    'inter-town'
 );
 
 INSERT INTO town_station
@@ -490,7 +503,7 @@ VALUES (
     16176,
     '12/11/2016',
     '09:41:00',
-    'Inter-town'
+    'inter-town'
 );
 
 INSERT INTO inter_town_trip
@@ -505,7 +518,7 @@ VALUES (
     53157,
     '12/11/2016',
     '12:48:00',
-    'Inter-town'
+    'inter-town'
 );
 
 INSERT INTO inter_town_trip
@@ -520,7 +533,7 @@ VALUES (
     23813,
     '12/11/2016',
     '12:48:00',
-    'Inter-town'
+    'inter-town'
 );
 
 INSERT INTO inter_town_trip

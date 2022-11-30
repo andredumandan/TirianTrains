@@ -63,7 +63,8 @@ CREATE TABLE ticket(
 
 CREATE TABLE station(
     station_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
-    station_name VARCHAR(255) NOT NULL DEFAULT 'Tirian Trains Station'   
+    station_name VARCHAR(255) NOT NULL DEFAULT 'Tirian Trains Station', 
+    type VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE local_station(
@@ -99,7 +100,7 @@ CREATE TABLE trip(
     type VARCHAR(255) NOT NULL,
     FOREIGN KEY (train_id) REFERENCES train(train_id) ON DELETE CASCADE,
     FOREIGN KEY (trip_date) REFERENCES trip_date(date) ON DELETE CASCADE,
-    CHECK (type in ('Local', 'Inter-town'))
+    CHECK (type in ('local', 'inter-town'))
 );
 
 CREATE TABLE local_trip(

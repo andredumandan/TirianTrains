@@ -1,0 +1,40 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="margin-60">
+        <form method="post">
+            {% csrf_token %}
+            <p class="main-header">New Ticket</p>
+            <p class="sub-header">Customer Info</p>
+            <div class="grid-columns-5">
+                <p class="label">Given Name</p>
+                <p class="label">Middle Initial</p>
+                <p class="label">Last Name</p>
+                <p class="label">Birth Date</p>
+                <p class="label">Gender</p>
+                <input required name="given" type="text">
+                <input required name="middle" type="text">
+                <input required name="last" type="text">
+                <input required name="date" type="date">
+                <select name="gender">
+                    <option value="">-----</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <p class="label">Trips</p>
+            <div class= "grid-columns-1">
+                <select id="trip-1" required name="trip-1">
+                    <option value="">-----</option>
+                    {% for id,trip in trips.items %}
+                        <option value="{{id}}">{{trip}}</option>
+                    {% endfor %}
+                </select>
+                <div class="grid-columns-2">
+                    <button id="add-trip" type="button">Add Trips</button>
+                    <input type="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

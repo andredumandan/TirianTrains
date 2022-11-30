@@ -4,7 +4,7 @@ VALUES (
     451621,
     '12/11/2016',
     '12:48:00',
-    'Local'
+    'local'
 );
 
 INSERT INTO local_trip
@@ -19,7 +19,7 @@ VALUES (
     451621,
     '12/11/2016',
     '13:48:00',
-    'Local'
+    'local'
 );
 
 INSERT INTO local_trip
@@ -33,7 +33,7 @@ VALUES (
     451621,
     '12/11/2016',
     '14:48:00',
-    'Local'
+    'local'
 );
 
 INSERT INTO local_trip
@@ -48,7 +48,7 @@ VALUES (
     451621,
     '12/11/2016',
     '15:48:00',
-    'Local'
+    'local'
 );
 
 INSERT INTO local_trip

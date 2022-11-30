@@ -1,3 +1,31 @@
 {% extends "main/base.html" %}
 {% block content %}
+    <div class="margin-60">
+        <p class="main-header">Total Sales</p>
+        <div class="grid-columns-2">
+            {% for time,sale in sales.items %}
+                <div>
+                    <p class="sub-header">{{time}}</p>
+                    <div class="grid-columns-2">
+                        <p class="label">Date</p>
+                        <p class="label">Lion Coins</p>
+                        {% for s in sale %}
+                            <p>{{s}}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="margin-60">
+        <p class="main-header">Sales and Maintenance</p>
+        <form method="post">
+            <div class="grid-columns-2">
+                <p class="label">Date</p>
+                <p class="label">Reports</p>
+                <input type="date">
+                <input type="submit" value="Generate">
+            </div>
+        </form>
+    </div>
 {% endblock content %}

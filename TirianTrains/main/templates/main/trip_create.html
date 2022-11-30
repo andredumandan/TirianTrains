@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="margin-60">
+        <form method="post">
+            {% csrf_token %}
+            <p class="main-header">New Trip</p>
+            <div class="grid-columns-5">
+                <p class="label">Trip Type</p>
+                <p class="label">Train</p>
+                <p class="label">Route</p>
+                <p class="label">Trip Date</p>
+                <p class="label">Departure Time</p>
+                    <input name="type" type="text" required disabled value="{{type}}">
+                    <select name="train" required id="train">
+                        <option value="">-----</option>
+                        {% for train in trains %}
+                            <option value="{{train.train_id}}">{{train}}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="route" required id="route">
+                        <option value="">-----</option>
+                        {% for id,route in routes.items %}
+                            <option value="{{id}}">{{route}}</option>
+                        {% endfor %}
+                    </select>
+                    <input name="date" required id="date" type="date">
+                    <input name="time" required id="time" type="time">
+                    <input type="submit" value="SUBMIT">
+                </div>
+        </form>
+    </div>
+{% endblock content %}

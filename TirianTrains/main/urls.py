@@ -12,8 +12,10 @@ urlpatterns = [
     path('trip-schedules/<str:pk>/', TripDateDetail, name='trip-date-detail'),
     path('trips/', Trips, name='trips'),
     path('trips/<str:type>/<str:pk>', TripDetail, name='trip-detail'),
+    path('trip-create/<str:type>', TripCreate, name='trip-create'),
     path('tickets/', Tickets, name='tickets'),
     path('tickets/<str:pk>/', TicketDetail, name='ticket-detail'),
+    path('ticket-create/', TicketCreate, name='ticket-create'),
     path('customers/', Customers, name='customers'),
     path('customers/<str:pk>/travel-history/', CustomerDetail, name='customer-detail'),
 ]

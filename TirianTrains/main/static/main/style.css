@@ -70,6 +70,11 @@ a{
     margin: 60px;
 }
 
+.grid-columns-1{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
 .grid-columns-2{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -117,12 +122,13 @@ a{
     grid-column: span 2;
 }
 
-p{
+p, input{
     text-align: center;
     padding: 10px;
     margin: 2px;
     background-color: var(--super-light);
     position: relative;
+    font-size: 1em;
 }
 
 .main-header{

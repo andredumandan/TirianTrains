@@ -1,10 +1,67 @@
-from django.shortcuts import render
-from datetime import datetime
+from django.shortcuts import render, redirect
 from .models import *
+from datetime import datetime, timedelta
 
 # Create your views here.
 def HomeView(request):
-    return render(request, 'main/home.html')
+
+    date_today = datetime.now().date()
+    # https://stackoverflow.com/questions/441147/how-to-subtract-a-day-from-a-date
+    date_week  = [date_today - timedelta(days=7), date_today]
+
+    tickets_today = Ticket.objects.filter(date_purchased=date_today)
+    tickets_week = Ticket.objects.filter(date_purchased__range=date_week)
+    tickets_month = Ticket.objects.filter(
+        date_purchased__year=date_today.year,
+        date_purchased__month=date_today.month
+    )
+    tickets_year = Ticket.objects.filter(
+        date_purchased__year=date_today.year
+    )
+
+    today_total = 0
+    for ticket in tickets_today:
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                today_total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                today_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
+    week_total = 0
+    for ticket in tickets_week:
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                week_total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                week_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
+    month_total = 0
+    for ticket in tickets_month:
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                month_total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                month_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
+    year_total = 0
+    for ticket in tickets_year:
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                year_total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                year_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
+    sales = {}
+    sales['This Day'] = [date_today, today_total]
+    sales['Past 7 Days'] = [f"{date_week[0].strftime('%b. %d, %Y')} - {date_today.strftime('%b. %d, %Y')}", week_total]
+    sales['Past Month'] = [f"{date_today.strftime('%b. %Y')}", month_total]
+    sales['Past Year'] = [f"{date_today.strftime('%Y')}", year_total]
+
+    context = {
+        'sales' : sales,
+    }
+
+    return render(request, 'main/home.html', context)
 
 def TrainMaintenance(request):
 
@@ -136,12 +193,12 @@ def TripDateDetail(request, pk):
     local_trips = {}
 
     for trip in trip_objects:
-        if trip.type == 'Inter-town':
+        if trip.type == 'inter-town':
             route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
             origin = Station.objects.get(station_id=route.origin.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
             trips[trip] = [trip.train.train_id, origin, destination, trip.departure_time, trip.departure_time, route.travel_time, route.trip_cost]
-        elif trip.type == 'Local':
+        elif trip.type == 'local':
             route = LocalTrip.objects.get(trip_id=trip.trip_id).station
             origin = Station.objects.get(station_id=route.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
@@ -258,30 +315,32 @@ def Tickets(request):
     tickets = {}
     for ticket in ticket_objects:
         
-        first_trip = ticket.tickettrip_set.first().trip
-        last_trip = ticket.tickettrip_set.last().trip
-        
-        if first_trip.type == 'Local':
-            origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=first_trip.trip_id).station.station_id)
+        if len(ticket.tickettrip_set.all()) > 0:
 
-        elif first_trip.type == 'Inter-town':
-            origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=first_trip.trip_id).route.origin.station_id)
+            first_trip = ticket.tickettrip_set.first().trip
+            last_trip = ticket.tickettrip_set.last().trip
+            
+            if first_trip.type == 'local':
+                origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=first_trip.trip_id).station.station_id)
 
-        if last_trip.type == 'Local':
-            final_dest = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=last_trip.trip_id).station.destination.station_id)
+            elif first_trip.type == 'inter-town':
+                origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=first_trip.trip_id).route.origin.station_id)
 
-        elif last_trip.type == 'Inter-town':
-            final_dest = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=last_trip.trip_id).route.destination.station_id)
+            if last_trip.type == 'local':
+                final_dest = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=last_trip.trip_id).station.destination.station_id)
 
-        total_cost = 0
-        for ticket_trip in ticket.tickettrip_set.all():
-            if ticket_trip.trip.type == 'Local':
-                total_cost += 2
-            elif ticket_trip.trip.type == 'Inter-town':
-                trip_cost = InterTownTrip.objects.get(trip_id=ticket_trip.trip.trip_id).route.trip_cost
-                total_cost += trip_cost
+            elif last_trip.type == 'inter-town':
+                final_dest = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=last_trip.trip_id).route.destination.station_id)
 
-        tickets[ticket] = [origin, final_dest, total_cost]
+            total_cost = 0
+            for ticket_trip in ticket.tickettrip_set.all():
+                if ticket_trip.trip.type == 'local':
+                    total_cost += 2
+                elif ticket_trip.trip.type == 'inter-town':
+                    trip_cost = InterTownTrip.objects.get(trip_id=ticket_trip.trip.trip_id).route.trip_cost
+                    total_cost += trip_cost
+
+            tickets[ticket] = [origin, final_dest, total_cost]
 
     context = {
         'tickets' : tickets,
@@ -303,7 +362,7 @@ def TicketDetail(request, pk):
         trip = t_t.trip
         train = trip.train.train_id
 
-        if trip.type == 'Local':
+        if trip.type == 'local':
             origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.station_id)
             destination = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.destination.station_id)
             departure = trip.departure_time
@@ -311,7 +370,7 @@ def TicketDetail(request, pk):
             duration = 5
             cost = 2
 
-        elif trip.type == 'Inter-town':
+        elif trip.type == 'inter-town':
             origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.origin.station_id)
             destination = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.destination.station_id)
             departure = trip.departure_time
@@ -323,9 +382,9 @@ def TicketDetail(request, pk):
 
     total_cost = 0
     for ticket_trip in ticket_trips:
-        if ticket_trip.trip.type == 'Local':
+        if ticket_trip.trip.type == 'local':
             total_cost += 2
-        elif ticket_trip.trip.type == 'Inter-town':
+        elif ticket_trip.trip.type == 'inter-town':
             trip_cost = InterTownTrip.objects.get(trip_id=ticket_trip.trip.trip_id).route.trip_cost
             total_cost += trip_cost
 
@@ -375,14 +434,14 @@ def CustomerDetail(request, pk):
     for trip in trips:
         train = trip.train
 
-        if trip.type == 'Local':
+        if trip.type == 'local':
             route = LocalTrip.objects.get(trip_id=trip.trip_id).station
             origin = Station.objects.get(station_id=route.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
             duration = 5
             cost = 2
 
-        elif trip.type == 'Inter-town':
+        elif trip.type == 'inter-town':
             route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
             origin = Station.objects.get(station_id=route.origin.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
@@ -399,3 +458,140 @@ def CustomerDetail(request, pk):
         'history' : history,
     }
     return render(request, 'main/customer_detail.html', context)
+
+def TripCreate(request, type):
+    
+    if request.method == 'POST':
+        form = request.POST
+        train = Train.objects.get(train_id=form.get('train'))
+
+        if TripDate.objects.filter(date=form.get('date')):
+            trip_date = TripDate.objects.filter(date=form.get('date'))[0]
+        else:
+            trip_date = TripDate(date=form.get('date'))
+            trip_date.save()
+
+        newTrip = Trip(
+            train=train,
+            trip_date=trip_date,
+            departure_time=form.get('time'),
+            type=type
+        )
+        newTrip.save()
+
+        if type == 'local':
+            origin = LocalStation.objects.get(station_id=form.get('route'))
+            
+            newLocalTrip = LocalTrip(
+                trip_id = newTrip.trip_id,
+                station = origin
+            )
+            newLocalTrip.save()
+
+        elif type == 'inter-town':
+            route = InterTownRoute.objects.get(route_id=form.get('route'))
+
+            newInterTownTrip = InterTownTrip(
+                trip_id = newTrip.trip_id,
+                route = route)
+            newInterTownTrip.save()
+        
+        return redirect("trip-date-detail", trip_date.date)
+    
+    trains = Train.objects.all()
+    
+    routes = {}
+    if type == 'local':
+        local_stations = LocalStation.objects.all()
+        for l_s in local_stations:
+            origin = Station.objects.get(station_id=l_s.station_id)
+            destination = Station.objects.get(station_id=l_s.destination.station_id)
+            routes[l_s.station_id] = f'{origin} to {destination}'
+        
+    elif type == 'inter-town':
+        town_routes = InterTownRoute.objects.all()
+        for t_r in town_routes:
+            origin = Station.objects.get(station_id=t_r.origin.station_id)
+            destination = Station.objects.get(station_id=t_r.destination.station_id)
+            routes[t_r.route_id] = f'{origin} to {destination}'
+        
+
+    context = {
+        'type' : type,
+        'trains': trains,
+        'routes' : routes,
+    }
+
+    return render(request, 'main/trip_create.html', context)
+
+def TicketCreate(request):
+
+    if request.method == 'POST':
+        form = request.POST
+        customers = Customer.objects.filter(given_name=form.get('given'),
+        middle_initial=form.get('middle'),
+        last_name=form.get('last'),
+        birth_date=form.get('date'),
+        current_gender=form.get('gender'),)
+        if len(customers) > 0:
+            customer = customers[0]
+        else:
+            customer = Customer(
+                given_name=form.get('given'),
+                middle_initial=form.get('middle'),
+                last_name=form.get('last'),
+                birth_date=form.get('date'),
+                current_gender=form.get('gender'),
+            )
+            customer.save()
+
+        ticket = Ticket(customer = customer)
+        ticket.save()
+
+        for key in form:
+            if key.startswith('trip') and form.get(key):
+                trip = Trip.objects.get(trip_id=form.get(key))
+                ticket_trip = TicketTrip(
+                    trip = trip,
+                    ticket = ticket
+                )
+                ticket_trip.save()
+
+    all_trips = Trip.objects.order_by('trip_date__date')
+    trips = {}
+    for trip in all_trips:
+        date = trip.trip_date.date
+        departure_time = trip.departure_time
+        if trip.type == 'local':
+            local_trip = LocalTrip.objects.get(trip_id=trip.trip_id)
+            origin = Station.objects.get(
+                station_id = local_trip.station.station_id
+                )
+            destination = Station.objects.get(
+                station_id = local_trip.station.destination.station_id
+                )
+
+            arrival_time = departure_time
+
+            cost = '5 Lion Coins'
+
+        elif trip.type == 'inter-town':
+            route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
+            origin = Station.objects.get(
+                station_id = route.origin.station_id
+                )
+            destination = Station.objects.get(
+                station_id = route.destination.station_id
+                )
+
+            arrival_time = departure_time
+
+            cost = f'{route.trip_cost} Lion Coins'
+
+        trips[trip.trip_id] = f'{date} | {origin} to {destination} | {departure_time} - {arrival_time} | {cost}'
+        
+    context = {
+        'trips' : trips,
+    }
+
+    return render(request, 'main/ticket_create.html', context)
