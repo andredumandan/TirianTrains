@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 :root{
-    --dark: #060606;
-    --semi-dark: #222222;
-    --mid: rgb(65, 65, 65);
-    --semi-light: rgb(142, 142, 142);
+    --dark: rgb(114, 0, 0);
+    --semi-dark: rgb(117, 40, 40);
+    --mid: rgb(156, 138, 46);
+    --semi-light: rgb(167, 57, 57);
     --light: rgb(216, 216, 216);
     --super-light: rgb(252, 252, 252);
+    --accent: #e76932;
 }
 
 * {
@@ -29,7 +30,10 @@ header{
     justify-content: space-between;
     align-items: center;
     color: var(--light);
+    border-bottom: 5px solid var(--accent);
+    box-shadow: -1px 10px 24px 0px rgba(0,0,0,0.73);
 }
+
 
 header > h1 {
     vertical-align: middle;
@@ -49,6 +53,30 @@ li{
 a{
     text-decoration: none;
     color: inherit;
+}
+
+ul a{
+    position: relative;
+}
+
+ul a::after{
+    content: "";
+    display: block;
+    width: 0;
+    height: 1px;
+    border-radius: 1px;
+    background-color: white;
+    position: absolute;
+    transition: 0.2s ease-in-out;
+    margin: 0 auto;
+}
+
+ul a:hover::after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: white;
 }
 
 .btn a::before{
@@ -126,7 +154,7 @@ a{
     grid-column: span 3;
 }
 
-p, input{
+p, input, select{
     text-align: center;
     padding: 10px;
     margin: 2px;
@@ -150,11 +178,20 @@ p, input{
 p.btn{
     background-color: var(--semi-light);
     color: var(--super-light);
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+    z-index: 1;
+}
+
+p.btn:hover{
+    z-index: 2;
+    transform: scale(105%);
+    background-color: var(--semi-dark);
 }
 
 
 p.label{
-    background-color: var(--mid);
+    background-color: var(--accent);
     color: var(--light);
 }
 

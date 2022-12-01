@@ -68,8 +68,8 @@ def HomeView(request):
     sales = {}
     sales['This Day'] = [date_today, today_total]
     sales['Past 7 Days'] = [f"{date_week[0].strftime('%b. %d, %Y')} - {date_today.strftime('%b. %d, %Y')}", week_total]
-    sales['Past Month'] = [f"{date_today.strftime('%b. %Y')}", month_total]
-    sales['Past Year'] = [f"{date_today.strftime('%Y')}", year_total]
+    sales['This Month'] = [f"{date_today.strftime('%b. %Y')}", month_total]
+    sales['This Year'] = [f"{date_today.strftime('%Y')}", year_total]
 
     context = {
         'sales' : sales,
