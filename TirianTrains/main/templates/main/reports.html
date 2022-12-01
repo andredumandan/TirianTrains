@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <div class="margin-60">
+        <p class="main-header">Sales: {{date}}</p>
+        <div class="grid-columns-2">
+            <p class="btn">Total</p>
+            <p>{{total}} Lion Coins</p>
+            <p class="label">Customer</p>
+            <p class="label">Lion Coins</p>
+            {% for ticket, details in tickets.items %}
+                {% for d in details %}    
+                    <p>{{d}}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="margin-60">
+        <p class="main-header">Maintenance: {{date}}</p>
+        <div class="grid-columns-5">
+            <p class="label">Train ID</p>
+            <p class="label">Train Model</p>
+            <p class="label">Crew in Charge</p>
+            <p class="label">Task</p>
+            <p class="label">Condition</p>
+            {% for cert, details in crew_certs.items %}
+                {% for d in details %}
+                    <p>{{d}}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

@@ -2,9 +2,10 @@
 {% block content %}
     <div class="margin-60">
         <p class="main-header">Total Sales</p>
-        <div class="grid-columns-2">
+        
+        <div class="grid-columns-6">
             {% for time,sale in sales.items %}
-                <div>
+                <div class="{% if time == 'This Day' or time == 'Past 7 Days' %}span-3{% else %}span-2{% endif %}">
                     <p class="sub-header">{{time}}</p>
                     <div class="grid-columns-2">
                         <p class="label">Date</p>
@@ -14,16 +15,26 @@
                         {% endfor %}
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            <div class="span-2">
+                <p class="sub-header">All Time</p>
+                <div class="grid-columns-2">
+                    <p class="label">Date</p>
+                    <p class="label">Lion Coins</p>
+                    <p>---</p>
+                    <p>{{total}}</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="margin-60">
         <p class="main-header">Sales and Maintenance</p>
         <form method="post">
+            {% csrf_token %}
             <div class="grid-columns-2">
                 <p class="label">Date</p>
                 <p class="label">Reports</p>
-                <input type="date">
+                <input name="date" type="date">
                 <input type="submit" value="Generate">
             </div>
         </form>

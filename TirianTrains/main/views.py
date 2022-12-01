@@ -5,6 +5,11 @@ from datetime import datetime, timedelta
 # Create your views here.
 def HomeView(request):
 
+    if request.method == 'POST':
+        form = request.POST
+        date = form.get('date') 
+        return redirect('reports', date)
+
     date_today = datetime.now().date()
     # https://stackoverflow.com/questions/441147/how-to-subtract-a-day-from-a-date
     date_week  = [date_today - timedelta(days=7), date_today]
@@ -18,6 +23,7 @@ def HomeView(request):
     tickets_year = Ticket.objects.filter(
         date_purchased__year=date_today.year
     )
+    tickets_all = Ticket.objects.all()
 
     today_total = 0
     for ticket in tickets_today:
@@ -51,6 +57,14 @@ def HomeView(request):
             elif ticket_trip.trip.type == 'inter-town':
                 year_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
 
+    all_time_total = 0
+    for ticket in tickets_all:
+            for ticket_trip in ticket.tickettrip_set.all():
+                if ticket_trip.trip.type == 'local':
+                    all_time_total += 2
+                elif ticket_trip.trip.type == 'inter-town':
+                    all_time_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
     sales = {}
     sales['This Day'] = [date_today, today_total]
     sales['Past 7 Days'] = [f"{date_week[0].strftime('%b. %d, %Y')} - {date_today.strftime('%b. %d, %Y')}", week_total]
@@ -59,9 +73,57 @@ def HomeView(request):
 
     context = {
         'sales' : sales,
+        'total' : all_time_total,
     }
 
     return render(request, 'main/home.html', context)
+
+def Reports(request, date):
+
+    
+    tickets_today = Ticket.objects.filter(date_purchased=date)
+    print(tickets_today)
+
+    total = 0
+    for ticket in tickets_today:
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+
+    tickets = {}
+
+    for ticket in tickets_today:
+        ticket_total = 0
+        for ticket_trip in ticket.tickettrip_set.all():
+            if ticket_trip.trip.type == 'local':
+                ticket_total += 2
+            elif ticket_trip.trip.type == 'inter-town':
+                ticket_total += InterTownTrip.objects.get(trip_id = ticket_trip.trip.trip_id).route.trip_cost
+        tickets[ticket] = [ticket.customer,ticket_total]
+
+    certificates = CrewCertificate.objects.filter(maintenance_date=date)
+
+    crew_certs = {}
+
+    for cert in certificates:
+        crew_certs[cert] = [
+            cert.certificate_no.train.train_id,
+            cert.certificate_no.train,
+            cert.crew_no,
+            cert.task,
+            cert.condition,
+        ]
+
+    context = {
+        'date' : datetime.strptime(date, '%Y-%m-%d').strftime('%b. %m %Y'),
+        'total' : total,
+        'tickets' : tickets,
+        'crew_certs' : crew_certs,
+    }
+
+    return render(request, 'main/reports.html', context)
 
 def TrainMaintenance(request):
 
