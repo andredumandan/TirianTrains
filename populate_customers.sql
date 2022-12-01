@@ -1,3 +1,5 @@
+SET DATESTYLE TO DMY;
+
 INSERT INTO customer
 VALUES (
     nextval('customer_customer_id_seq'),
