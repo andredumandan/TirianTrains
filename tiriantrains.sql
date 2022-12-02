@@ -108,6 +108,7 @@ CREATE TABLE local_trip(
     station_id INT NOT NULL,
     FOREIGN KEY (station_id) REFERENCES local_station(station_id)
 );
+
 CREATE TABLE inter_town_trip(
     trip_id SERIAL NOT NULL UNIQUE PRIMARY KEY,
     route_id INT NOT NULL,

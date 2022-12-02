@@ -885,3 +885,350 @@ VALUES
     (38, 1002),
     (39, 1003),
     (40, 1004);
+
+-------------------------------------------------------
+--                      CUSTOMERS                    --
+-------------------------------------------------------
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Angpo',
+    'Gimo',
+    'L',
+    '20/07/2005',
+    'Other'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Shanna',
+    'Haul',
+    '',
+    '01/05/2003',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Hanakanang',
+    'Kamote',
+    'G',
+    '31/12/2001',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Akuh',
+    'Meed',
+    'V',
+    '12/12/2012',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Penge',
+    'Dijits',
+    'V',
+    '11/11/2011',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Pashat',
+    'Nga',
+    'P',
+    '05/05/2005',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Maypi',
+    'Sokaba',
+    'B',
+    '03/03/2003',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Sori',
+    'Wal',
+    'A',
+    '03/03/2003',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Tim',
+    'An',
+    'G',
+    '25/12/2002',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Lig',
+    'Ma',
+    'D',
+    '15/02/1992',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Ayla',
+    'By',
+    'U',
+    '05/10/1998',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Imee',
+    'Sy',
+    'U',
+    '23/09/2006',
+    'Other'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Ayo',
+    'Kon',
+    'A',
+    '23/09/1989',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Hyu',
+    'Yu',
+    'U',
+    '29/01/2001',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Yas',
+    'Su',
+    'O',
+    '13/02/2003',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Vai',
+    'Pe',
+    'R',
+    '01/05/1999',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Dee',
+    'Va',
+    'H',
+    '08/05/2001',
+    'Male'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Loe',
+    'Ba',
+    'H',
+    '02/08/1998',
+    'Female'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Emily',
+    'Dickinson',
+    'M',
+    '14/02/1980',
+    'Other'
+);
+
+INSERT INTO customer
+VALUES (
+    nextval('customer_customer_id_seq'),
+    'Ge',
+    'ge',
+    'G',
+    '11/03/1988',
+    'Other'
+);
+
+-------------------------------------------------------
+--                       TICKETS                     --
+-------------------------------------------------------
+
+INSERT INTO ticket
+VALUES 
+    (nextval('ticket_ticket_id_seq'), 1, '1/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 2, '1/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 3, '1/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 4, '2/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 5, '2/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 6, '2/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 7, '2/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 8, '3/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 9, '3/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 10, '3/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 11, '4/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 12, '4/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 13, '4/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 14, '5/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 15, '5/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 16, '5/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 17, '5/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 18, '6/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 19, '6/12/2016'),
+    (nextval('ticket_ticket_id_seq'), 20, '7/12/2016');
+
+INSERT INTO ticket_trip
+VALUES 
+    (nextval('ticket_trip_ticket_trip_id_seq'), 1, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 2, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 3, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 4, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 5, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 6, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 7, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 8, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 9, 1),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 10, 2),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 11, 2),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 12, 2),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 13, 2),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 14, 2),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 15, 3),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 16, 3),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 17, 3),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 18, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 19, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 20, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 21, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 22, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 23, 4),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 24, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 25, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 26, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 27, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 28, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 29, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 30, 5),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 31, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 32, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 33, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 34, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 35, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 36, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 37, 6),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 38, 7),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 39, 7),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 40, 7),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 1, 8),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 3, 8),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 5, 8),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 7, 8),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 9, 9),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 11, 9),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 13, 9),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 15, 9),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 17, 9),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 19, 10),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 21, 10),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 23, 10),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 25, 10),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 27, 10),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 29, 11),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 31, 11),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 33, 11),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 35, 11),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 37, 11),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 39, 12),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 2, 12),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 5, 12),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 8, 12),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 11, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 14, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 17, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 20, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 23, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 26, 13),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 29, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 32, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 35, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 38, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 1, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 2, 14),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 3, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 4, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 5, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 6, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 7, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 8, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 9, 15),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 10, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 11, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 12, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 13, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 14, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 15, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 16, 16),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 17, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 18, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 19, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 20, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 21, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 22, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 23, 17),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 24, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 25, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 26, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 27, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 28, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 29, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 30, 18),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 31, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 32, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 33, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 34, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 35, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 36, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 37, 19),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 38, 20),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 39, 20),
+    (nextval('ticket_trip_ticket_trip_id_seq'), 40, 20);
