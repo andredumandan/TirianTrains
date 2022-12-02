@@ -14,7 +14,7 @@
                     <select name="train" required id="train">
                         <option value="">-----</option>
                         {% for train in trains %}
-                            <option value="{{train.train_id}}">{{train}}</option>
+                            <option value="{{train.train_id}}">{{train.train_id}} - {{train}}</option>
                         {% endfor %}
                     </select>
                     <select name="route" required id="route">

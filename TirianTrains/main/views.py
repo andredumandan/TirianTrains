@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from datetime import datetime, timedelta
+import datetime as dt
 
 # Create your views here.
 def HomeView(request):
@@ -196,13 +197,12 @@ def DepartureRoutes(request, pk):
     town_routes = InterTownRoute.objects.filter(origin=town)
 
     routes = {}
-
     for tr in town_routes:
         origin = Station.objects.get(station_id=town.station_id)
         destination = Station.objects.get(station_id=tr.destination.station_id)
         duration = tr.travel_time
         cost = f'{tr.trip_cost} Lion coins'
-        routes[tr.route_id] = [origin, destination, duration, cost]
+        routes[tr.route_id] = [origin, destination, timedelta(minutes=duration), cost]
 
     context = {
         'routes' : routes,
@@ -224,7 +224,7 @@ def ArrivalRoutes(request, pk):
         destination = Station.objects.get(station_id=town.station_id)
         duration = tr.travel_time
         cost = f'{tr.trip_cost} Lion coins'
-        routes[tr.route_id] = [origin, destination, duration, cost]
+        routes[tr.route_id] = [origin, destination, timedelta(minutes=duration), cost]
 
     context = {
         'routes' : routes,
@@ -259,12 +259,20 @@ def TripDateDetail(request, pk):
             route = InterTownTrip.objects.get(trip_id=trip.trip_id).route
             origin = Station.objects.get(station_id=route.origin.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
-            trips[trip] = [trip.train.train_id, origin, destination, trip.departure_time, trip.departure_time, route.travel_time, route.trip_cost]
+            departure = trip.departure_time
+            duration = route.travel_time
+            arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
+            cost = route.trip_cost
+            trips[trip] = [trip.train.train_id, origin, destination, departure, arrival, timedelta(minutes=duration), cost]
         elif trip.type == 'local':
             route = LocalTrip.objects.get(trip_id=trip.trip_id).station
             origin = Station.objects.get(station_id=route.station_id)
             destination = Station.objects.get(station_id=route.destination.station_id)
-            local_trips[trip] = [trip.train.train_id, origin, destination, trip.departure_time, trip.departure_time, 5, 2]
+            duration = 5
+            departure = trip.departure_time
+            arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
+            cost = 2
+            local_trips[trip] = [trip.train.train_id, origin, destination, departure, arrival, timedelta(minutes=duration), cost]
 
     context = {
         'trips' : trips,
@@ -314,17 +322,18 @@ def TripDetail(request, type, pk):
         origin = Station.objects.get(station_id=pk)
         local_trips = LocalTrip.objects.filter(station=LocalStation.objects.get(station_id=origin.station_id))
 
-        for trip in local_trips:
-
-            date = Trip.objects.get(trip_id=trip.trip_id).trip_date
-            train = Trip.objects.get(trip_id=trip.trip_id).train
+        for local_trip in local_trips:
+            trip = Trip.objects.get(trip_id=local_trip.trip_id)
+            date = trip.trip_date
+            train = trip.train
             destination = Station.objects.get(station_id=LocalStation.objects.get(station_id=origin.station_id).destination.station_id)
-            departure = Trip.objects.get(trip_id=trip.trip_id).departure_time
-            arrival = Trip.objects.get(trip_id=trip.trip_id).departure_time
+            departure = trip.departure_time
+            # https://stackoverflow.com/questions/12448592/how-to-add-delta-to-python-datetime-time
             duration = 5
+            arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
             cost = 2
 
-            trips[trip] = [date.date, train.train_id, origin, destination, departure, arrival, duration, cost]
+            trips[trip] = [date.date, train.train_id, origin, destination, departure, arrival, timedelta(minutes=duration), cost]
     
     elif type == 'inter-town-depart':
         s_origin = Station.objects.get(station_id=pk)
@@ -339,11 +348,11 @@ def TripDetail(request, type, pk):
                 train = trip.train
                 destination = Station.objects.get(station_id=route.destination.station_id)
                 departure = trip.departure_time
-                arrival = trip.departure_time
                 duration = route.travel_time
+                arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
                 cost = route.trip_cost
 
-                trips[trip] = [date.date, train.train_id, s_origin, destination, departure, arrival, duration, cost]
+                trips[trip] = [date.date, train.train_id, s_origin, destination, departure, arrival, timedelta(minutes=duration), cost]
 
     elif type == 'inter-town-arrive':
         s_destination = Station.objects.get(station_id=pk)
@@ -358,11 +367,11 @@ def TripDetail(request, type, pk):
                 train = trip.train
                 origin = Station.objects.get(station_id=route.origin.station_id)
                 departure = trip.departure_time
-                arrival = trip.departure_time
                 duration = route.travel_time
+                arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
                 cost = route.trip_cost
 
-                trips[trip] = [date.date, train.train_id, origin, s_destination, departure, arrival, duration, cost]
+                trips[trip] = [date.date, train.train_id, origin, s_destination, departure, arrival, timedelta(minutes=duration), cost]
 
     context = {
         'trips' : trips,
@@ -428,19 +437,19 @@ def TicketDetail(request, pk):
             origin = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.station_id)
             destination = Station.objects.get(station_id=LocalTrip.objects.get(trip_id=trip.trip_id).station.destination.station_id)
             departure = trip.departure_time
-            arrival = trip.departure_time
             duration = 5
+            arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
             cost = 2
 
         elif trip.type == 'inter-town':
             origin = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.origin.station_id)
             destination = Station.objects.get(station_id=InterTownTrip.objects.get(trip_id=trip.trip_id).route.destination.station_id)
             departure = trip.departure_time
-            arrival = trip.departure_time
             duration = InterTownTrip.objects.get(trip_id=trip.trip_id).route.travel_time
+            arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
             cost = InterTownTrip.objects.get(trip_id=trip.trip_id).route.trip_cost
 
-        trips[t_t] = [train, origin, destination, departure, arrival, duration, cost]
+        trips[t_t] = [train, origin, destination, departure, arrival, timedelta(minutes=duration), cost]
 
     total_cost = 0
     for ticket_trip in ticket_trips:
@@ -511,9 +520,9 @@ def CustomerDetail(request, pk):
             cost = route.trip_cost
 
         departure = trip.departure_time
-        arrival = trip.departure_time
+        arrival = (datetime.combine(dt.date(1,1,1), departure) + timedelta(minutes=duration)).time()
 
-        history[trip] = [train.train_id, origin, destination, departure, arrival, duration, cost]
+        history[trip] = [train.train_id, origin, destination, departure, arrival, timedelta(minutes=duration), cost]
 
     context = {
         'customer' : customer,
@@ -618,6 +627,7 @@ def TicketCreate(request):
                     ticket = ticket
                 )
                 ticket_trip.save()
+        return redirect('ticket-detail', ticket.ticket_id)
 
     all_trips = Trip.objects.order_by('trip_date__date')
     trips = {}
@@ -632,9 +642,7 @@ def TicketCreate(request):
             destination = Station.objects.get(
                 station_id = local_trip.station.destination.station_id
                 )
-
-            arrival_time = departure_time
-
+            duration = 5 
             cost = '5 Lion Coins'
 
         elif trip.type == 'inter-town':
@@ -645,10 +653,10 @@ def TicketCreate(request):
             destination = Station.objects.get(
                 station_id = route.destination.station_id
                 )
-
-            arrival_time = departure_time
-
+            duration = route.travel_time
             cost = f'{route.trip_cost} Lion Coins'
+
+        arrival_time = (datetime.combine(dt.date(1,1,1), departure_time) + timedelta(minutes=duration)).time()
 
         trips[trip.trip_id] = f'{date} | {origin} to {destination} | {departure_time} - {arrival_time} | {cost}'
         
