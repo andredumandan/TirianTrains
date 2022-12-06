@@ -180,8 +180,8 @@ def TrainRoutes(request):
     for i in inter_town_routes:
         origin = Station.objects.get(station_id=i.origin.station_id)
         destination = Station.objects.get(station_id=i.destination.station_id)
-        
-        inter[i] = [origin, destination, i.travel_time, f'{i.trip_cost} Lion coins']
+        duration = timedelta(minutes=i.travel_time)
+        inter[i] = [origin, destination, duration, f'{i.trip_cost} Lion coins']
 
     context = {
         'local' : local,
